@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Edit Wedding Info</title>
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+  <div class="max-w-2xl mx-auto bg-white p-8 rounded shadow">
+    <h2 class="mb-4 text-2xl font-bold">Edit Wedding Information</h2>
+    <div class="mb-2 text-gray-500 text-sm">*You can use <b>**bold**</b> and <i>*italic*</i> using Markdown style*</div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li class="text-green-600">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form method="POST" enctype="multipart/form-data" class="grid gap-4">
+      <label class="font-semibold">Names</label>
+      <input name="names" value="{{ data.names }}" class="w-full border p-2 rounded text-lg">
+
+      <label class="font-semibold">Date</label>
+      <input name="date" value="{{ data.date }}" class="w-full border p-2 rounded text-lg">
+
+      <label class="font-semibold">Invitation Message</label>
+      <textarea name="invitation" class="w-full border p-2 rounded text-lg" rows="3">{{ data.invitation }}</textarea>
+
+      <label class="font-semibold">Venue</label>
+      <input name="venue" value="{{ data.venue }}" class="w-full border p-2 rounded text-lg">
+
+      <label class="font-semibold">Venue Map Link</label>
+      <input name="venue_map" value="{{ data.venue_map }}" class="w-full border p-2 rounded text-lg">
+
+      <label class="font-semibold">Gift Message</label>
+      <textarea name="gift_message" class="w-full border p-2 rounded text-lg" rows="2">{{ data.gift_message }}</textarea>
+
+      <label class="font-semibold">RSVP Notification Email</label>
+      <input name="rsvp_email" value="{{ data.rsvp_email }}" class="w-full border p-2 rounded text-lg">
+
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" name="rsvp_enabled" {% if data.rsvp_enabled %}checked{% endif %}>
+        <label class="font-semibold">Enable RSVP?</label>
+      </div>
+
+      <hr class="my-2">
+
+      <div class="font-semibold">Section Backgrounds (leave blank to keep current or use default):</div>
+      <div>
+        <label>Home Section Photo</label>
+        <input type="file" name="home_photo" class="block mt-1">
+      </div>
+      <div>
+        <label>Invitation Section Photo</label>
+        <input type="file" name="invitation_photo" class="block mt-1">
+      </div>
+      <div>
+        <label>Venue Section Photo</label>
+        <input type="file" name="venue_photo" class="block mt-1">
+      </div>
+      <div>
+        <label>Gift Section Photo</label>
+        <input type="file" name="gift_photo" class="block mt-1">
+      </div>
+      <div>
+        <label>RSVP Section Photo</label>
+        <input type="file" name="rsvp_photo" class="block mt-1">
+      </div>
+
+      <button class="w-full bg-blue-700 text-white mt-4 p-2 rounded text-lg">Save</button>
+    </form>
+    <a href="{{ url_for('logout') }}" class="block mt-4 text-blue-600">Log Out</a>
+  </div>
+</body>
+</html>

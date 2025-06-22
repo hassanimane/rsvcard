@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+  <form method="POST" class="bg-white p-8 rounded shadow-lg max-w-sm w-full">
+    <h2 class="mb-4 text-xl font-bold">Admin Login</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li class="text-red-500">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <input name="username" class="w-full p-2 border rounded mb-3" placeholder="Username" required>
+    <input type="password" name="password" class="w-full p-2 border rounded mb-3" placeholder="Password" required>
+    <button class="w-full bg-blue-600 text-white p-2 rounded">Log In</button>
+  </form>
+</body>
+</html>

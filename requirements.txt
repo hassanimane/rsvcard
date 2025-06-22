@@ -1,0 +1,5 @@
+Flask
+Werkzeug
+Flask-Mail
+markdown2
+gunicorn
