@@ -43,9 +43,11 @@ def make_slug(name, date):
 
 @app.route("/")
 def index():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
     events = load_events()
     if not events:
-        return "No events configured. Go to /login to create one."
+        return "No events configured."
     return render_template("event_selector.html", events=events)
 
 @app.route("/<slug>")
@@ -101,7 +103,7 @@ def login():
 @app.route("/logout")
 def logout():
     session["logged_in"] = False
-    return redirect(url_for("index"))
+    return redirect(url_for("login"))
 
 @app.route("/admin")
 def admin_list():
