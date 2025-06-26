@@ -1,0 +1,57 @@
+<!-- templates/admin_list.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Manage Events</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="p-8 bg-gray-100 min-h-screen">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">Your Events</h1>
+      <div>
+        <a href="{{ url_for('admin_new') }}" 
+           class="bg-blue-600 text-white px-4 py-2 rounded shadow mr-4">
+          + New Event
+        </a>
+        <a href="{{ url_for('logout') }}" class="text-red-600 hover:underline">
+          Log out
+        </a>
+      </div>
+    </div>
+    <ul class="space-y-4">
+      {% if events %}
+        {% for slug, data in events.items() %}
+        <li class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row justify-between items-start md:items-center">
+          <div>
+            <div class="text-xl font-semibold text-gray-800">{{ data.names }}</div>
+            <div class="text-sm text-gray-500">{{ data.date }} • <span class="font-mono">{{ slug }}</span></div>
+            <div class="text-sm mt-1">
+              <a href="{{ url_for('home', slug=slug, _external=True) }}" 
+                 target="_blank" 
+                 class="text-blue-600 underline break-all">
+                {{ url_for('home', slug=slug, _external=True) }}
+              </a>
+            </div>
+          </div>
+          <div class="mt-4 md:mt-0 space-x-4">
+            <a href="{{ url_for('home', slug=slug) }}" 
+               target="_blank" 
+               class="text-blue-600 hover:underline">
+              View
+            </a>
+            <a href="{{ url_for('admin_edit', slug=slug) }}" 
+               class="text-green-600 hover:underline">
+              Edit
+            </a>
+          </div>
+        </li>
+        {% endfor %}
+      {% else %}
+        <li class="text-gray-600">No events yet. Click “New Event” above to add one.</li>
+      {% endif %}
+    </ul>
+  </div>
+</body>
+</html>

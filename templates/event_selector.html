@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <title>Select Your Wedding</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-xl mx-auto text-center">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Select Your Wedding</h1>
+    <ul class="space-y-4">
+      {% for slug, data in events.items() %}
+        <li>
+          <a href="{{ url_for('home', slug=slug) }}"
+             class="block bg-white p-4 rounded-lg shadow hover:bg-blue-50 transition">
+            <div class="text-xl font-semibold">{{ data.names }}</div>
+            <div class="text-sm text-gray-600">{{ data.date }}</div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

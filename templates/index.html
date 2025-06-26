@@ -1,145 +1,36 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>{{ data.names }} Wedding</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.tailwindcss.com">
-  <style>
-    html, body {
-      height: 100%;
-      min-height: 100%;
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-      box-sizing: border-box;
-    }
-    section {
-      min-height: 100vh;
-      width: 100vw;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      scroll-snap-align: start;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    main {
-      scroll-snap-type: y mandatory;
-      width: 100vw;
-      overflow-x: hidden;
-    }
-    .section-bg, .section-overlay {
-      position: absolute;
-      top:0;left:0;right:0;bottom:0;
-      width: 100vw; height: 100vh;
-    }
-    .section-bg {
-      z-index: 0;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-attachment: fixed;
-    }
-    .section-overlay {
-      z-index: 1;
-      background: rgba(0,0,0,0.35);
-      pointer-events: none;
-    }
-    .section-content {
-      z-index: 2; position: relative; width: 100vw;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .script {
-      font-family: 'Dancing Script', cursive;
-      font-weight: 700;
-    }
-    .serif {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-    }
-    .white-text {
-      color: #fff;
-      text-shadow: 0 2px 16px #000, 0 1px 1px #000;
-    }
-    ::-webkit-scrollbar { width: 0; background: transparent; }
-  </style>
+  <title>{{ data.names }}'s Invitation</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
 </head>
-<body>
-  <main>
-    <!-- Home -->
-    <section id="home">
-      <div class="section-bg" style="background-image: url('{{ data.home_photo or data.invitation_photo or data.venue_photo or data.gift_photo or data.rsvp_photo or '/static/uploads/default.jpg' }}');"></div>
-      <div class="section-overlay"></div>
-      <div class="section-content text-center">
-        <h1 class="script white-text" style="font-size:3rem;margin-bottom:0.3em;">{{ data.names }}</h1>
-        <h2 class="serif white-text" style="font-size:2.2rem;margin-bottom:0.5em;">Are Getting Married</h2>
-        <div class="white-text" style="font-size:1.5rem;margin-bottom:2rem;">{{ data.date }}</div>
-        <div class="white-text" style="margin-bottom:2rem;">Swipe Up <br> <span style="font-size:2rem;">↑</span></div>
-        <a href="#invitation" class="mt-2 animate-bounce text-3xl block" aria-label="Scroll to Invitation">&#8595;</a>
-      </div>
-    </section>
-    <!-- Invitation -->
-    <section id="invitation">
-      <div class="section-bg" style="background-image: url('{{ data.invitation_photo or data.home_photo or '/static/uploads/default.jpg' }}');"></div>
-      <div class="section-overlay"></div>
-      <div class="section-content text-center">
-        <h2 class="serif white-text" style="font-size:2.5rem;margin-bottom:0.7em;">Invitation</h2>
-        <div class="max-w-2xl w-full bg-white bg-opacity-90 text-black rounded p-8 shadow mb-10 text-2xl leading-relaxed prose prose-lg" style="font-size:1.6rem;">
-          {{ data_html.invitation | safe }}
-        </div>
-        <a href="#venue" class="mt-8 animate-bounce text-4xl block">&#8595;</a>
-      </div>
-    </section>
-    <!-- Venue -->
-    <section id="venue">
-      <div class="section-bg" style="background-image: url('{{ data.venue_photo or data.home_photo or '/static/uploads/default.jpg' }}');"></div>
-      <div class="section-overlay"></div>
-      <div class="section-content text-center">
-        <h2 class="serif white-text" style="font-size:2.5rem;margin-bottom:0.7em;">Venue</h2>
-        <div class="max-w-2xl w-full bg-white bg-opacity-90 text-black rounded p-8 shadow mb-4 text-2xl prose prose-lg" style="font-size:1.5rem;">
-          {{ data_html.venue | safe }}
-        </div>
-        {% if data.venue_map %}
-          <a href="{{ data.venue_map }}" target="_blank" class="block mt-2 text-blue-700 underline text-xl">View Map</a>
-        {% endif %}
-        <a href="#gift" class="mt-8 animate-bounce text-4xl block">&#8595;</a>
-      </div>
-    </section>
-    <!-- Gift -->
-    <section id="gift">
-      <div class="section-bg" style="background-image: url('{{ data.gift_photo or data.home_photo or '/static/uploads/default.jpg' }}');"></div>
-      <div class="section-overlay"></div>
-      <div class="section-content text-center">
-        <h2 class="serif white-text" style="font-size:2.5rem;margin-bottom:0.7em;">Gift Registry</h2>
-        <div class="max-w-2xl w-full bg-white bg-opacity-90 text-black rounded p-8 shadow mb-10 text-2xl prose prose-lg" style="font-size:1.5rem;">
-          {{ data_html.gift_message | safe }}
-        </div>
-        <a href="#rsvp" class="mt-8 animate-bounce text-4xl block">&#8595;</a>
-      </div>
-    </section>
-    <!-- RSVP -->
-    {% if data.rsvp_enabled %}
-    <section id="rsvp">
-      <div class="section-bg" style="background-image: url('{{ data.rsvp_photo or data.home_photo or '/static/uploads/default.jpg' }}');"></div>
-      <div class="section-overlay"></div>
-      <div class="section-content text-center">
-        <h2 class="serif white-text" style="font-size:2.5rem;margin-bottom:0.7em;">RSVP</h2>
-        <form method="POST" action="/rsvp" class="flex flex-col gap-5 max-w-lg w-full mx-auto bg-white bg-opacity-90 text-black rounded p-8 shadow mb-4 text-xl">
-          <input name="name" placeholder="Your Name" required class="border p-3 rounded text-xl">
-          <select name="attending" class="border p-3 rounded text-xl">
-            <option value="Yes">Will Attend</option>
-            <option value="No">Regretfully Decline</option>
-          </select>
-          <input name="guests" placeholder="Number of Guests" type="number" min="1" max="10" class="border p-3 rounded text-xl">
-          <button class="bg-blue-700 text-white rounded p-3 mt-2 text-xl">RSVP</button>
-        </form>
-      </div>
-    </section>
+<body class="bg-gray-100 p-8">
+  <div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-3xl font-bold">{{ data.names }}</h1>
+    <p class="text-gray-700 mt-2">{{ data.date }}</p>
+    <p class="mt-4">{{ data.invitation }}</p>
+
+    <h2 class="mt-6 font-bold text-xl">Venue</h2>
+    <p>{{ data.venue }}</p>
+    {% if data.venue_map %}
+      <p><a href="{{ data.venue_map }}" class="text-blue-600 underline" target="_blank">View Map</a></p>
     {% endif %}
-  </main>
+
+    <h2 class="mt-6 font-bold text-xl">Gift</h2>
+    <p>{{ data.gift_message }}</p>
+
+    {% if data.rsvp_enabled %}
+      <h2 class="mt-6 font-bold text-xl">RSVP</h2>
+      <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="mt-2 space-y-2">
+        <input name="name" placeholder="Your Name" required class="w-full border p-2 rounded">
+        <select name="attending" class="w-full border p-2 rounded">
+          <option value="Yes">Yes, I’ll attend</option>
+          <option value="No">Sorry, can’t attend</option>
+        </select>
+        <input name="guests" type="number" placeholder="Number of Guests" class="w-full border p-2 rounded">
+        <button class="w-full bg-blue-600 text-white p-2 rounded">Submit RSVP</button>
+      </form>
+    {% endif %}
+  </div>
 </body>
 </html>
