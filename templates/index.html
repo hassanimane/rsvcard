@@ -2,35 +2,73 @@
 <html lang="en">
 <head>
   <title>{{ data.names }}'s Invitation</title>
-  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-8">
-  <div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-3xl font-bold">{{ data.names }}</h1>
-    <p class="text-gray-700 mt-2">{{ data.date }}</p>
-    <p class="mt-4">{{ data.invitation }}</p>
+<body class="bg-gray-100 text-gray-800">
 
-    <h2 class="mt-6 font-bold text-xl">Venue</h2>
-    <p>{{ data.venue }}</p>
-    {% if data.venue_map %}
-      <p><a href="{{ data.venue_map }}" class="text-blue-600 underline" target="_blank">View Map</a></p>
-    {% endif %}
+  <!-- Home Section -->
+  {% if data.home_photo %}
+  <div class="bg-cover bg-center text-white py-20 px-4" style="background-image: url('{{ data.home_photo }}');">
+    <div class="max-w-2xl mx-auto text-center bg-black bg-opacity-50 p-6 rounded">
+      <h1 class="text-4xl font-bold">{{ data.names }}</h1>
+      <p class="text-xl mt-2">{{ data.date }}</p>
+    </div>
+  </div>
+  {% endif %}
 
-    <h2 class="mt-6 font-bold text-xl">Gift</h2>
-    <p>{{ data.gift_message }}</p>
+  <!-- Invitation Section -->
+  {% if data.invitation %}
+  <div class="py-10 px-4 {% if data.invitation_photo %} bg-cover bg-center text-white {% endif %}"
+       style="{% if data.invitation_photo %} background-image: url('{{ data.invitation_photo }}'); {% endif %}">
+    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
+      <p class="text-lg">{{ data.invitation }}</p>
+    </div>
+  </div>
+  {% endif %}
 
-    {% if data.rsvp_enabled %}
-      <h2 class="mt-6 font-bold text-xl">RSVP</h2>
-      <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="mt-2 space-y-2">
+  <!-- Venue Section -->
+  {% if data.venue %}
+  <div class="py-10 px-4 {% if data.venue_photo %} bg-cover bg-center text-white {% endif %}"
+       style="{% if data.venue_photo %} background-image: url('{{ data.venue_photo }}'); {% endif %}">
+    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
+      <h2 class="text-xl font-bold mb-2">Venue</h2>
+      <p>{{ data.venue }}</p>
+      {% if data.venue_map %}
+        <p class="mt-2"><a href="{{ data.venue_map }}" target="_blank" class="text-blue-700 underline">View Map</a></p>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Gift Section -->
+  {% if data.gift_message %}
+  <div class="py-10 px-4 {% if data.gift_photo %} bg-cover bg-center text-white {% endif %}"
+       style="{% if data.gift_photo %} background-image: url('{{ data.gift_photo }}'); {% endif %}">
+    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
+      <h2 class="text-xl font-bold mb-2">Gift</h2>
+      <p>{{ data.gift_message }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- RSVP Section -->
+  {% if data.rsvp_enabled %}
+  <div class="py-10 px-4 {% if data.rsvp_photo %} bg-cover bg-center text-white {% endif %}"
+       style="{% if data.rsvp_photo %} background-image: url('{{ data.rsvp_photo }}'); {% endif %}">
+    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
+      <h2 class="text-xl font-bold mb-2">RSVP</h2>
+      <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="space-y-4">
         <input name="name" placeholder="Your Name" required class="w-full border p-2 rounded">
         <select name="attending" class="w-full border p-2 rounded">
           <option value="Yes">Yes, I’ll attend</option>
           <option value="No">Sorry, can’t attend</option>
         </select>
         <input name="guests" type="number" placeholder="Number of Guests" class="w-full border p-2 rounded">
-        <button class="w-full bg-blue-600 text-white p-2 rounded">Submit RSVP</button>
+        <button class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Submit RSVP</button>
       </form>
-    {% endif %}
+    </div>
   </div>
+  {% endif %}
+
 </body>
 </html>
