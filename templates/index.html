@@ -2,74 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>{{ data.names }}'s Invitation</title>
+  <title>{{ data.names }} — Invitation</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  {% if data.font %}
-  <link href="https://fonts.googleapis.com/css2?family={{ data.font | replace(' ', '+') }}&display=swap" rel="stylesheet">
+
+  <!-- Load Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
   <style>
-    body, h1, h2, p, input, select, button {
-      font-family: '{{ data.font }}', sans-serif;
+    body {
+      font-family: 'Playfair Display', serif;
+    }
+    section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .bg-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      border-radius: 1rem;
+    }
+    h1, h2, p {
+      color: white;
+      font-weight: bold;
+      font-style: italic;
     }
   </style>
-  {% endif %}
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="overflow-x-hidden">
 
   {% if data.home_photo %}
-  <section class="min-h-screen bg-cover bg-center flex items-center justify-center text-white"
-           style="background-image: url('{{ data.home_photo }}');">
-    <div class="bg-black bg-opacity-50 p-6 rounded text-center">
-      <h1 class="text-4xl font-bold">{{ data.names }}</h1>
-      <p class="text-xl mt-2">{{ data.date }}</p>
+  <section style="background: url('{{ data.home_photo }}') center/cover no-repeat;">
+    <div class="bg-overlay">
+      <h1 class="text-5xl">{{ data.names }}</h1>
+      <p class="text-2xl mt-4">{{ data.date }}</p>
     </div>
   </section>
   {% endif %}
 
   {% if data.invitation %}
-  <section class="min-h-screen flex items-center justify-center text-white {% if data.invitation_photo %} bg-cover bg-center {% endif %}"
-           style="{% if data.invitation_photo %} background-image: url('{{ data.invitation_photo }}'); {% endif %}">
-    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl text-center">
-      <p class="text-lg">{{ data.invitation }}</p>
+  <section style="background: url('{{ data.invitation_photo }}') center/cover no-repeat;">
+    <div class="bg-overlay max-w-2xl">
+      <p class="text-2xl">{{ data.invitation }}</p>
     </div>
   </section>
   {% endif %}
 
   {% if data.venue %}
-  <section class="min-h-screen flex items-center justify-center text-white {% if data.venue_photo %} bg-cover bg-center {% endif %}"
-           style="{% if data.venue_photo %} background-image: url('{{ data.venue_photo }}'); {% endif %}">
-    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl text-center">
-      <h2 class="text-2xl font-bold mb-2">Venue</h2>
-      <p>{{ data.venue }}</p>
+  <section style="background: url('{{ data.venue_photo }}') center/cover no-repeat;">
+    <div class="bg-overlay max-w-xl">
+      <h2 class="text-3xl mb-4">Venue</h2>
+      <p class="text-xl">{{ data.venue }}</p>
       {% if data.venue_map %}
-        <p class="mt-2"><a href="{{ data.venue_map }}" target="_blank" class="underline text-blue-300">View Map</a></p>
+        <p class="mt-2"><a href="{{ data.venue_map }}" class="underline text-blue-200" target="_blank">View Map</a></p>
       {% endif %}
     </div>
   </section>
   {% endif %}
 
   {% if data.gift_message %}
-  <section class="min-h-screen flex items-center justify-center text-white {% if data.gift_photo %} bg-cover bg-center {% endif %}"
-           style="{% if data.gift_photo %} background-image: url('{{ data.gift_photo }}'); {% endif %}">
-    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl text-center">
-      <h2 class="text-2xl font-bold mb-2">Gift</h2>
-      <p>{{ data.gift_message }}</p>
+  <section style="background: url('{{ data.gift_photo }}') center/cover no-repeat;">
+    <div class="bg-overlay max-w-xl">
+      <h2 class="text-3xl mb-4">Gift</h2>
+      <p class="text-xl">{{ data.gift_message }}</p>
     </div>
   </section>
   {% endif %}
 
   {% if data.rsvp_enabled %}
-  <section class="min-h-screen flex items-center justify-center text-white {% if data.rsvp_photo %} bg-cover bg-center {% endif %}"
-           style="{% if data.rsvp_photo %} background-image: url('{{ data.rsvp_photo }}'); {% endif %}">
-    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl w-full">
-      <h2 class="text-2xl font-bold mb-4 text-center">RSVP</h2>
-      <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="space-y-4">
+  <section style="background: url('{{ data.rsvp_photo }}') center/cover no-repeat;">
+    <div class="bg-overlay max-w-xl w-full">
+      <h2 class="text-3xl mb-4">RSVP</h2>
+      <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="space-y-4 text-left">
         <input name="name" placeholder="Your Name" required class="w-full border p-2 rounded text-black">
         <select name="attending" class="w-full border p-2 rounded text-black">
           <option value="Yes">Yes, I’ll attend</option>
           <option value="No">Sorry, can’t attend</option>
         </select>
         <input name="guests" type="number" placeholder="Number of Guests" class="w-full border p-2 rounded text-black">
-        <button class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Submit RSVP</button>
+        <button class="w-full bg-white text-black font-bold p-2 rounded hover:bg-gray-200">Submit RSVP</button>
       </form>
     </div>
   </section>
