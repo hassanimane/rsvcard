@@ -1,90 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ data.names }} — Invitation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>{{ data.names }} — {{ data.date }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: 'Playfair Display', serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: '{{ data.font or "Georgia" }}', serif;
+      color: white;
       scroll-behavior: smooth;
     }
+
     section {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
+      height: 100vh;
+      width: 100%;
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
     }
-    .overlay {
-      background: rgba(0, 0, 0, 0.6);
+
+    h1 {
+      font-size: 3rem;
+      font-style: italic;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    p, a, label {
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    form {
+      background: rgba(0,0,0,0.5);
       padding: 2rem;
       border-radius: 1rem;
     }
-    h1, h2, p {
-      color: white;
+
+    input, select, button {
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #ffffff;
+      color: #000;
       font-weight: bold;
-      font-style: italic;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  {% if data.home_photo %}
-  <section style="background-image: url('{{ url_for('static', filename=data.home_photo.split('static/')[-1]) }}');">
-    <div class="overlay">
-      <h1 class="text-5xl">{{ data.names }}</h1>
-      <p class="text-xl mt-2">{{ data.date }}</p>
+  <section style="background-image: url('/static/{{ data.home_photo }}');">
+    <div>
+      <h1>{{ data.names }}</h1>
+      <p>{{ data.date }}</p>
     </div>
   </section>
-  {% endif %}
 
   {% if data.invitation %}
-  <section style="background-image: url('{{ url_for('static', filename=data.invitation_photo.split('static/')[-1]) }}');">
-    <div class="overlay max-w-2xl">
-      <p class="text-2xl">{{ data.invitation }}</p>
+  <section style="background-image: url('/static/{{ data.invitation_photo }}');">
+    <div>
+      <h1>You're Invited</h1>
+      <p>{{ data.invitation }}</p>
     </div>
   </section>
   {% endif %}
 
   {% if data.venue %}
-  <section style="background-image: url('{{ url_for('static', filename=data.venue_photo.split('static/')[-1]) }}');">
-    <div class="overlay max-w-xl">
-      <h2 class="text-3xl mb-4">Venue</h2>
-      <p class="text-xl">{{ data.venue }}</p>
+  <section style="background-image: url('/static/{{ data.venue_photo }}');">
+    <div>
+      <h1>Venue</h1>
+      <p>{{ data.venue }}</p>
       {% if data.venue_map %}
-        <p class="mt-2"><a href="{{ data.venue_map }}" class="underline text-blue-300" target="_blank">View Map</a></p>
+        <a href="{{ data.venue_map }}" target="_blank">View on Map</a>
       {% endif %}
     </div>
   </section>
   {% endif %}
 
   {% if data.gift_message %}
-  <section style="background-image: url('{{ url_for('static', filename=data.gift_photo.split('static/')[-1]) }}');">
-    <div class="overlay max-w-xl">
-      <h2 class="text-3xl mb-4">Gift</h2>
-      <p class="text-xl">{{ data.gift_message }}</p>
+  <section style="background-image: url('/static/{{ data.gift_photo }}');">
+    <div>
+      <h1>Gift Info</h1>
+      <p>{{ data.gift_message }}</p>
     </div>
   </section>
   {% endif %}
 
   {% if data.rsvp_enabled %}
-  <section style="background-image: url('{{ url_for('static', filename=data.rsvp_photo.split('static/')[-1]) }}');">
-    <div class="overlay max-w-xl w-full">
-      <h2 class="text-3xl mb-4">RSVP</h2>
-      <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="space-y-4 text-left">
-        <input name="name" placeholder="Your Name" required class="w-full border p-2 rounded text-black">
-        <select name="attending" class="w-full border p-2 rounded text-black">
-          <option value="Yes">Yes, I’ll attend</option>
-          <option value="No">Sorry, can’t attend</option>
+  <section id="rsvp" style="background-image: url('/static/{{ data.rsvp_photo }}');">
+    <div>
+      <h1>RSVP</h1>
+      <form method="post" action="{{ url_for('rsvp', slug=slug) }}">
+        <label>Your Name</label>
+        <input type="text" name="name" required>
+
+        <label>Will you attend?</label>
+        <select name="attending" required>
+          <option>Yes</option>
+          <option>No</option>
         </select>
-        <input name="guests" type="number" placeholder="Number of Guests" class="w-full border p-2 rounded text-black">
-        <button class="w-full bg-white text-black font-bold p-2 rounded hover:bg-gray-200">Submit RSVP</button>
+
+        <label>Number of Guests</label>
+        <input type="number" name="guests" value="0" min="0">
+
+        <button type="submit">Submit</button>
       </form>
     </div>
   </section>
