@@ -5,20 +5,15 @@
   <title>{{ data.names }} — {{ data.date }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       font-family: '{{ data.font or "Georgia" }}', serif;
       color: white;
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
-
     section {
-      height: 100vh;
+      min-height: 100vh;
       width: 100%;
       background-size: cover;
       background-position: center;
@@ -27,26 +22,27 @@
       justify-content: center;
       text-align: center;
       padding: 2rem;
+      flex-direction: column;
     }
-
     h1 {
       font-size: 3rem;
       font-style: italic;
       font-weight: bold;
       text-shadow: 2px 2px 5px #000;
+      margin-bottom: 0.5rem;
     }
-
     p, a, label {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      margin: 0.3rem 0;
       text-shadow: 1px 1px 3px #000;
     }
-
     form {
       background: rgba(0,0,0,0.5);
       padding: 2rem;
       border-radius: 1rem;
+      max-width: 400px;
+      width: 100%;
     }
-
     input, select, button {
       padding: 0.7rem;
       margin: 0.5rem 0;
@@ -55,7 +51,6 @@
       border: none;
       font-size: 1rem;
     }
-
     button {
       background-color: #ffffff;
       color: #000;
@@ -66,63 +61,50 @@
 </head>
 <body>
 
-  <section style="background-image: url('/static/{{ data.home_photo }}');">
-    <div>
-      <h1>{{ data.names }}</h1>
-      <p>{{ data.date }}</p>
-    </div>
+  <section style="background-image: url('{{ data.home_photo }}');">
+    <h1>{{ data.names }}</h1>
+    <p>{{ data.date }}</p>
   </section>
 
   {% if data.invitation %}
-  <section style="background-image: url('/static/{{ data.invitation_photo }}');">
-    <div>
-      <h1>You're Invited</h1>
-      <p>{{ data.invitation }}</p>
-    </div>
+  <section style="background-image: url('{{ data.invitation_photo }}');">
+    <h1>Invitation</h1>
+    <p>{{ data.invitation }}</p>
   </section>
   {% endif %}
 
   {% if data.venue %}
-  <section style="background-image: url('/static/{{ data.venue_photo }}');">
-    <div>
-      <h1>Venue</h1>
-      <p>{{ data.venue }}</p>
-      {% if data.venue_map %}
-        <a href="{{ data.venue_map }}" target="_blank">View on Map</a>
-      {% endif %}
-    </div>
+  <section style="background-image: url('{{ data.venue_photo }}');">
+    <h1>Venue</h1>
+    <p>{{ data.venue }}</p>
+    {% if data.venue_map %}
+      <a href="{{ data.venue_map }}" target="_blank">View Map</a>
+    {% endif %}
   </section>
   {% endif %}
 
   {% if data.gift_message %}
-  <section style="background-image: url('/static/{{ data.gift_photo }}');">
-    <div>
-      <h1>Gift Info</h1>
-      <p>{{ data.gift_message }}</p>
-    </div>
+  <section style="background-image: url('{{ data.gift_photo }}');">
+    <h1>Gift</h1>
+    <p>{{ data.gift_message }}</p>
   </section>
   {% endif %}
 
   {% if data.rsvp_enabled %}
-  <section id="rsvp" style="background-image: url('/static/{{ data.rsvp_photo }}');">
-    <div>
-      <h1>RSVP</h1>
-      <form method="post" action="{{ url_for('rsvp', slug=slug) }}">
-        <label>Your Name</label>
-        <input type="text" name="name" required>
-
-        <label>Will you attend?</label>
-        <select name="attending" required>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-
-        <label>Number of Guests</label>
-        <input type="number" name="guests" value="0" min="0">
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  <section id="rsvp" style="background-image: url('{{ data.rsvp_photo }}');">
+    <h1>RSVP</h1>
+    <form method="post" action="{{ url_for('rsvp', slug=slug) }}">
+      <label>Your Name</label>
+      <input type="text" name="name" required>
+      <label>Will you attend?</label>
+      <select name="attending" required>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+      <label>Number of Guests</label>
+      <input type="number" name="guests" value="0" min="0">
+      <button type="submit">Submit</button>
+    </form>
   </section>
   {% endif %}
 
