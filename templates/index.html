@@ -1,73 +1,78 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <meta charset="utf-8">
   <title>{{ data.names }}'s Invitation</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  {% if data.font %}
+  <link href="https://fonts.googleapis.com/css2?family={{ data.font | replace(' ', '+') }}&display=swap" rel="stylesheet">
+  <style>
+    body, h1, h2, p, input, select, button {
+      font-family: '{{ data.font }}', sans-serif;
+    }
+  </style>
+  {% endif %}
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Home Section -->
   {% if data.home_photo %}
-  <div class="bg-cover bg-center text-white py-20 px-4" style="background-image: url('{{ data.home_photo }}');">
-    <div class="max-w-2xl mx-auto text-center bg-black bg-opacity-50 p-6 rounded">
+  <section class="min-h-screen bg-cover bg-center flex items-center justify-center text-white"
+           style="background-image: url('{{ data.home_photo }}');">
+    <div class="bg-black bg-opacity-50 p-6 rounded text-center">
       <h1 class="text-4xl font-bold">{{ data.names }}</h1>
       <p class="text-xl mt-2">{{ data.date }}</p>
     </div>
-  </div>
+  </section>
   {% endif %}
 
-  <!-- Invitation Section -->
   {% if data.invitation %}
-  <div class="py-10 px-4 {% if data.invitation_photo %} bg-cover bg-center text-white {% endif %}"
-       style="{% if data.invitation_photo %} background-image: url('{{ data.invitation_photo }}'); {% endif %}">
-    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
+  <section class="min-h-screen flex items-center justify-center text-white {% if data.invitation_photo %} bg-cover bg-center {% endif %}"
+           style="{% if data.invitation_photo %} background-image: url('{{ data.invitation_photo }}'); {% endif %}">
+    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl text-center">
       <p class="text-lg">{{ data.invitation }}</p>
     </div>
-  </div>
+  </section>
   {% endif %}
 
-  <!-- Venue Section -->
   {% if data.venue %}
-  <div class="py-10 px-4 {% if data.venue_photo %} bg-cover bg-center text-white {% endif %}"
-       style="{% if data.venue_photo %} background-image: url('{{ data.venue_photo }}'); {% endif %}">
-    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
-      <h2 class="text-xl font-bold mb-2">Venue</h2>
+  <section class="min-h-screen flex items-center justify-center text-white {% if data.venue_photo %} bg-cover bg-center {% endif %}"
+           style="{% if data.venue_photo %} background-image: url('{{ data.venue_photo }}'); {% endif %}">
+    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl text-center">
+      <h2 class="text-2xl font-bold mb-2">Venue</h2>
       <p>{{ data.venue }}</p>
       {% if data.venue_map %}
-        <p class="mt-2"><a href="{{ data.venue_map }}" target="_blank" class="text-blue-700 underline">View Map</a></p>
+        <p class="mt-2"><a href="{{ data.venue_map }}" target="_blank" class="underline text-blue-300">View Map</a></p>
       {% endif %}
     </div>
-  </div>
+  </section>
   {% endif %}
 
-  <!-- Gift Section -->
   {% if data.gift_message %}
-  <div class="py-10 px-4 {% if data.gift_photo %} bg-cover bg-center text-white {% endif %}"
-       style="{% if data.gift_photo %} background-image: url('{{ data.gift_photo }}'); {% endif %}">
-    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
-      <h2 class="text-xl font-bold mb-2">Gift</h2>
+  <section class="min-h-screen flex items-center justify-center text-white {% if data.gift_photo %} bg-cover bg-center {% endif %}"
+           style="{% if data.gift_photo %} background-image: url('{{ data.gift_photo }}'); {% endif %}">
+    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl text-center">
+      <h2 class="text-2xl font-bold mb-2">Gift</h2>
       <p>{{ data.gift_message }}</p>
     </div>
-  </div>
+  </section>
   {% endif %}
 
-  <!-- RSVP Section -->
   {% if data.rsvp_enabled %}
-  <div class="py-10 px-4 {% if data.rsvp_photo %} bg-cover bg-center text-white {% endif %}"
-       style="{% if data.rsvp_photo %} background-image: url('{{ data.rsvp_photo }}'); {% endif %}">
-    <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-sm p-6 rounded shadow">
-      <h2 class="text-xl font-bold mb-2">RSVP</h2>
+  <section class="min-h-screen flex items-center justify-center text-white {% if data.rsvp_photo %} bg-cover bg-center {% endif %}"
+           style="{% if data.rsvp_photo %} background-image: url('{{ data.rsvp_photo }}'); {% endif %}">
+    <div class="bg-black bg-opacity-50 p-6 rounded max-w-2xl w-full">
+      <h2 class="text-2xl font-bold mb-4 text-center">RSVP</h2>
       <form action="{{ url_for('rsvp', slug=slug) }}" method="POST" class="space-y-4">
-        <input name="name" placeholder="Your Name" required class="w-full border p-2 rounded">
-        <select name="attending" class="w-full border p-2 rounded">
+        <input name="name" placeholder="Your Name" required class="w-full border p-2 rounded text-black">
+        <select name="attending" class="w-full border p-2 rounded text-black">
           <option value="Yes">Yes, I’ll attend</option>
           <option value="No">Sorry, can’t attend</option>
         </select>
-        <input name="guests" type="number" placeholder="Number of Guests" class="w-full border p-2 rounded">
+        <input name="guests" type="number" placeholder="Number of Guests" class="w-full border p-2 rounded text-black">
         <button class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Submit RSVP</button>
       </form>
     </div>
-  </div>
+  </section>
   {% endif %}
 
 </body>
