@@ -12,6 +12,10 @@ app.secret_key = os.environ.get("RSVCARD_SECRET", "change_this_to_a_random_secre
 UPLOAD_FOLDER = 'static/uploads'
 EVENTS_FILE = 'events.json'
 
+# Prevent huge file uploads (limit to 5 MB)
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5 MB
+
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
